@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header class="date_nav">
+      <form class="form">
+        <input
+          type="date"
+          class="date_start left-side date_field__slyle"
+          placeholder="Начало даты"
+        />
+        <input
+          type="date"
+          class="date_end left-side date_field__slyle"
+          placeholder="Конец даты"
+        />
+        <button
+          id="reset"
+          class="right-side date_btn__mrgn date_btn date_btn__reset"
+        >
+          Сброс
+        </button>
+        <button
+          id="search"
+          class="right-side date_btn__mrgn0 date_btn date_btn__search"
+        >
+          Поиск
+        </button>
+      </form>
+    </header>
+    <article class="main">
+      <div class="calendar">
+        <div class="swich_month">
+          <div class="swich_month_last curs"><span> < </span></div>
+          <div class="month_title"></div>
+          <div class="swich_month_next curs"><span> > </span></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Понедельник</th>
+              <th>Вторник</th>
+              <th>Среда</th>
+              <th>Четверг</th>
+              <th>Пятница</th>
+              <th>Суббота</th>
+              <th>Воскресенье</th>
+            </tr>
+          </thead>
+          <tbody class="cal_body"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <script src="index.js"></script>
+  </body>
+</html>

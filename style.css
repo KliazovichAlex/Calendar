@@ -1,0 +1,95 @@
+* {
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.date_nav {
+  margin: 1rem 1rem;
+}
+
+.form {
+  display: flex;
+}
+
+.date_field__slyle {
+  width: 300px;
+  padding: 0.3rem;
+  border: 1px solid rgb(203, 203, 203);
+  border-radius: 5px;
+  outline: none;
+  margin-right: 10px;
+}
+
+.left-side {
+  justify-content: flex-start;
+  margin: 0;
+}
+
+.right-side {
+  justify-content: flex-end;
+  margin: 0;
+  margin-left: 1rem;
+}
+
+.date_btn__mrgn {
+  margin: 0;
+  margin-left: 30%;
+}
+
+.date_btn__mrgn0 {
+  margin: 0;
+}
+
+.date_btn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-start-start-radius: 10px;
+  padding: 0 1.5rem;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.date_btn__reset {
+  background-color: brown;
+}
+
+.date_btn__search {
+  background-color: rgb(154, 154, 0);
+}
+
+.swich_month {
+  display: flex;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.curs {
+  cursor: pointer;
+}
+
+table {
+  width: 100vw;
+  border-collapse: collapse;
+}
+
+td {
+  position: relative;
+  width: 150px;
+  height: 100px;
+  border: 1px solid grey;
+  color: grey;
+}
+
+th {
+  background-color: thistle;
+  padding: 0.6rem 2rem;
+}
+
+td div {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

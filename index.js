@@ -2,11 +2,14 @@ const calBody = document.querySelector(".cal_body");
 const monthTitle = document.querySelector(".month_title");
 let table = "";
 let monthName = "";
+const dzen = [];
+let firstDay = "";
 function createCalendar(year, mon) {
   let month = mon - 1;
   const date = new Date(year, month);
+  getPrevDate(date);
   for (let i = 0; i < getDay(date); i++) {
-    table += `<td></td>`;
+    table += `<td><div class="not_this_month">${dzen[i]}</div></td>`;
   }
   while (date.getMonth() === month) {
     getMonthName(date);
@@ -18,10 +21,12 @@ function createCalendar(year, mon) {
   }
 
   monthTitle.innerHTML += `${monthName} ${date.getFullYear()}`;
-
+  getNextDate(date);
   if (getDay(date) !== 0) {
     for (let i = getDay(date); i < 7; i++) {
-      table += "<td></td>";
+      table += `<td><div class="not_this_month">${
+        firstDay.getDate() + i - getDay(date)
+      }</div></td>`;
     }
     table += "</tr></table>";
   }
@@ -29,40 +34,46 @@ function createCalendar(year, mon) {
   calBody.innerHTML += table;
 }
 
-function getDay(d) {
-  let day = d.getDay();
+function getDay(data) {
+  let day = data.getDay();
   if (day === 0) {
     day = 7;
   }
   return day - 1;
 }
-createCalendar(2020, 5);
+createCalendar(2020, 3);
 
-function getMonthName(d) {
-  switch (d.getMonth()) {
-    case 0:
-      return (monthName = "Январь");
-    case 1:
-      return (monthName = "Февраль");
-    case 2:
-      return (monthName = "Март");
-    case 3:
-      return (monthName = "Апрель");
-    case 4:
-      return (monthName = "Май");
-    case 5:
-      return (monthName = "Июнь");
-    case 6:
-      return (monthName = "Июль");
-    case 7:
-      return (monthName = "Август");
-    case 8:
-      return (monthName = "Сентябрь");
-    case 9:
-      return (monthName = "Октябрь");
-    case 10:
-      return (monthName = "Ноябрь");
-    case 11:
-      return (monthName = "Декабрь");
+function getMonthName(data) {
+  const months = [
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь",
+  ];
+
+  monthName = months[data.getMonth()];
+}
+
+function getPrevDate(date) {
+  let lastDay = new Date(date.getFullYear(), date.getMonth(), 0);
+  for (i = getDay(date); i > 0; i--) {
+    const prevMonth = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      lastDay.getDate() - i
+    );
+    dzen.push(prevMonth.getDate() + 1);
   }
+}
+
+function getNextDate(date) {
+  firstDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 }

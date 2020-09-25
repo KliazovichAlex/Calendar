@@ -2,14 +2,14 @@ const calBody = document.querySelector(".cal_body");
 const monthTitle = document.querySelector(".month_title");
 let table = "";
 let monthName = "";
-const dzen = [];
+const days = [];
 let firstDay = "";
 function createCalendar(year, mon) {
   let month = mon - 1;
   const date = new Date(year, month);
   getPrevDate(date);
   for (let i = 0; i < getDay(date); i++) {
-    table += `<td><div class="not_this_month">${dzen[i]}</div></td>`;
+    table += `<td><div class="not_this_month">${days[i]}</div></td>`;
   }
   while (date.getMonth() === month) {
     getMonthName(date);
@@ -70,7 +70,7 @@ function getPrevDate(date) {
       date.getMonth(),
       lastDay.getDate() - i
     );
-    dzen.push(prevMonth.getDate() + 1);
+    days.push(prevMonth.getDate() + 1);
   }
 }
 

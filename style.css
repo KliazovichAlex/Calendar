@@ -1,7 +1,7 @@
 * {
   margin: 0 auto;
   box-sizing: border-box;
-  overflow: hidden;
+  /* overflow: hidden;   */
 }
 
 .date_nav {
@@ -60,7 +60,7 @@
   background-color: rgb(154, 154, 0);
 }
 
-.swich_month {
+.switch_month {
   display: flex;
   font-size: 2rem;
   font-weight: bold;
@@ -70,28 +70,32 @@
   cursor: pointer;
 }
 
-table {
-  width: 100vw;
-  border-collapse: collapse;
+.cal_header {
+  display: flex;
 }
 
-td {
+.day_of_week {
   position: relative;
-  width: 150px;
-  height: 100px;
-  border: 1px solid grey;
+  height: 40px;
+  width: 14.28%;
+  margin: 0;
+  font-weight: bold;
+  color: rgb(97, 97, 97);
+  text-align: center;
+  padding-top: 10px;
+  background-color: rgb(87, 87, 255, 0.2);
 }
 
-th {
-  background-color: thistle;
-  padding: 0.6rem 2rem;
+.cal_body {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-td div {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: black;
+.days {
+  height: 80px;
+  width: 14.28%;
+  border: 1px solid gray;
+  margin: 0;
 }
 
 .not_this_month {

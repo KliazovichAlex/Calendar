@@ -1,68 +1,96 @@
 const calBody = document.querySelector(".cal_body");
 const monthTitle = document.querySelector(".month_title");
+const switchMonth = document.querySelector(".switch_month");
+const thisMonth = new Date();
+let today = new Date(thisMonth.getFullYear(), thisMonth.getMonth());
+let dateToSwitch = thisMonth.getMonth();
 let table = "";
 let monthName = "";
-function createCalendar(year, mon) {
-  let month = mon - 1;
-  const date = new Date(year, month);
-  for (let i = 0; i < getDay(date); i++) {
-    table += `<td></td>`;
+let lastDay = "";
+let firstDay = "";
+
+showCalendar(today, today.getMonth());
+
+function showCalendar(date, month) {
+  getPrevDate(date);
+  for (let i = getDay(date); i > 0; i--) {
+    table += `<div class="not_this_month days">${
+      lastDay.getDate() - i + 1
+    }</div>`;
   }
   while (date.getMonth() === month) {
-    getMonthName(date);
-    table += `<td><div>${date.getDate()}</div></td>`;
+    getMonthName(month);
+    table += `<div class="days">${date.getDate()}</div>`;
     if (getDay(date) % 7 === 6) {
-      table += `</tr><tr>`;
+      table += `<br>`;
     }
     date.setDate(date.getDate() + 1);
   }
+  monthTitle.innerHTML += `${monthName} ${new Date(
+    thisMonth.getFullYear(),
+    dateToSwitch
+  ).getFullYear()}`;
 
-  monthTitle.innerHTML += `${monthName} ${date.getFullYear()}`;
-
+  getNextDate(date);
   if (getDay(date) !== 0) {
     for (let i = getDay(date); i < 7; i++) {
-      table += "<td></td>";
+      table += `<div class="not_this_month days">${
+        firstDay.getDate() + i - getDay(date)
+      }</div>`;
     }
-    table += "</tr></table>";
   }
 
   calBody.innerHTML += table;
+  table = "";
 }
 
-function getDay(d) {
-  let day = d.getDay();
+function getDay(data) {
+  let day = data.getDay();
   if (day === 0) {
     day = 7;
   }
   return day - 1;
 }
-createCalendar(2020, 5);
 
-function getMonthName(d) {
-  switch (d.getMonth()) {
-    case 0:
-      return (monthName = "Январь");
-    case 1:
-      return (monthName = "Февраль");
-    case 2:
-      return (monthName = "Март");
-    case 3:
-      return (monthName = "Апрель");
-    case 4:
-      return (monthName = "Май");
-    case 5:
-      return (monthName = "Июнь");
-    case 6:
-      return (monthName = "Июль");
-    case 7:
-      return (monthName = "Август");
-    case 8:
-      return (monthName = "Сентябрь");
-    case 9:
-      return (monthName = "Октябрь");
-    case 10:
-      return (monthName = "Ноябрь");
-    case 11:
-      return (monthName = "Декабрь");
+switchMonth.addEventListener("click", (event) => {
+  if (event.target === document.querySelector(".next_month")) {
+    calBody.innerHTML = "";
+    monthTitle.innerHTML = "";
+    dateToSwitch += 1;
+    const nextMon = new Date(thisMonth.getFullYear(), dateToSwitch);
+    showCalendar(nextMon, nextMon.getMonth());
+  } else if (event.target === document.querySelector(".last_month")) {
+    calBody.innerHTML = "";
+    monthTitle.innerHTML = "";
+    dateToSwitch -= 1;
+    const lastMon = new Date(thisMonth.getFullYear(), dateToSwitch);
+    showCalendar(lastMon, lastMon.getMonth());
   }
+});
+
+function getMonthName(month) {
+  const months = [
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь",
+  ];
+
+  monthName = months[month];
+}
+
+function getPrevDate(date) {
+  lastDay = new Date(date.getFullYear(), date.getMonth(), 0);
+}
+
+function getNextDate(date) {
+  firstDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 }

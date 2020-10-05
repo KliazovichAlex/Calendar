@@ -45,19 +45,15 @@
   border: none;
   outline: none;
   cursor: pointer;
-  border-start-start-radius: 10px;
   padding: 0 1.5rem;
   color: white;
   font-size: 14px;
   font-weight: 700;
 }
 
-.date_btn__reset {
-  background-color: brown;
-}
-
-.date_btn__search {
+.date_btn__add {
   background-color: rgb(154, 154, 0);
+  margin-left: 10rem;
 }
 
 .switch_month {
@@ -96,8 +92,17 @@
   width: 14.28%;
   border: 1px solid gray;
   margin: 0;
+  position: relative;
 }
 
 .not_this_month {
   color: grey;
+}
+
+.this_month_plans {
+  height: 10px;
+  background-color: blue;
+  opacity: 0.2;
+  position: absolute;
+  top: 20px;
 }

@@ -1,23 +1,22 @@
-const calBody = document.querySelector(".cal_body");
+const calendarBody = document.querySelector(".calendar_body");
 const monthTitle = document.querySelector(".month_title");
 const switchMonth = document.querySelector(".switch_month");
 const form = document.querySelector(".form");
-const thisMonth = new Date();
-let today = new Date(thisMonth.getFullYear(), thisMonth.getMonth());
-let dateToSwitch = thisMonth.getMonth();
+const data = new Date();
+const currentDate = new Date(data.getFullYear(), data.getMonth());
+let dateToSwitch = currentDate.getMonth();
+console.log(dateToSwitch);
 let table = "";
 let monthName = "";
-let lastDay = "";
-let firstDay = "";
 const weeksTimeStamp = [];
 
-showCalendar(today, today.getMonth());
+showCalendar(currentDate, currentDate.getMonth());
 
 function showCalendar(date, month) {
-  getPrevDate(date);
+  console.log(getPrevDate(date).getDate());
   for (let i = getDay(date); i > 0; i--) {
     table += `<div class="not_this_month days">${
-      lastDay.getDate() - i + 1
+      getPrevDate(date).getDate() - i + 1
     }</div>`;
   }
   while (date.getMonth() === month) {
@@ -29,20 +28,19 @@ function showCalendar(date, month) {
     date.setDate(date.getDate() + 1);
   }
   monthTitle.innerHTML += `${monthName} ${new Date(
-    thisMonth.getFullYear(),
+    currentDate.getFullYear(),
     dateToSwitch
   ).getFullYear()}`;
 
-  getNextDate(date);
   if (getDay(date) !== 0) {
     for (let i = getDay(date); i < 7; i++) {
       table += `<div class="not_this_month days">${
-        firstDay.getDate() + i - getDay(date)
+        getNextDate(date).getDate() + i - getDay(date)
       }</div>`;
     }
   }
 
-  calBody.innerHTML += table;
+  calendarBody.innerHTML += table;
   table = "";
 }
 
@@ -56,16 +54,16 @@ function getDay(data) {
 
 switchMonth.addEventListener("click", (event) => {
   if (event.target === document.querySelector(".next_month")) {
-    calBody.innerHTML = "";
+    calendarBody.innerHTML = "";
     monthTitle.innerHTML = "";
     dateToSwitch += 1;
-    const nextMon = new Date(thisMonth.getFullYear(), dateToSwitch);
+    const nextMon = new Date(currentDate.getFullYear(), dateToSwitch);
     showCalendar(nextMon, nextMon.getMonth());
   } else if (event.target === document.querySelector(".last_month")) {
-    calBody.innerHTML = "";
+    calendarBody.innerHTML = "";
     monthTitle.innerHTML = "";
     dateToSwitch -= 1;
-    const lastMon = new Date(thisMonth.getFullYear(), dateToSwitch);
+    const lastMon = new Date(currentDate.getFullYear(), dateToSwitch);
     showCalendar(lastMon, lastMon.getMonth());
   }
 });
@@ -90,11 +88,11 @@ function getMonthName(month) {
 }
 
 function getPrevDate(date) {
-  lastDay = new Date(date.getFullYear(), date.getMonth(), 0);
+  return new Date(date.getFullYear(), date.getMonth(), 0);
 }
 
 function getNextDate(date) {
-  firstDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+  return new Date(date.getFullYear(), date.getMonth() + 1, 1);
 }
 
 form.addEventListener("submit", (event) => {
@@ -112,6 +110,13 @@ form.addEventListener("submit", (event) => {
       },
     ],
   });
+
+  checkRepeatDate(
+    event.target.querySelector(".date_start").value,
+    Date.parse(event.target.querySelector(".date_end").value)
+  );
+  localStorage.date = JSON.stringify(weeksTimeStamp);
+
   showPlans();
 });
 
@@ -138,18 +143,29 @@ function showPlans() {
         ((element.end - element.start) / 7) +
         1
     );
-    console.log(daysValue);
-    let firstPlanDay =
-      selectedMonth[new Date(element.visible[0].start).getDate() - 1];
-    console.log(firstPlanDay);
-    document.querySelectorAll(".this_month_plans").forEach((element) => {
-      if (document.querySelectorAll(".this_month_plans")) {
-        element.innerHTML = "";
-      }
-    });
-    firstPlanDay.innerHTML += `<div class = "this_month_plans"><div>`;
-    firstPlanDay.querySelector(".this_month_plans").style.width = `${
-      daysValue * 100
-    }%`;
+    console.log(dateToSwitch);
+    console.log(new Date(element.start).getMonth());
+    if (dateToSwitch === new Date(element.visible[0].start).getMonth()) {
+      let firstPlanDay =
+        selectedMonth[new Date(element.visible[0].start).getDate() - 1];
+      console.log(firstPlanDay);
+      document.querySelectorAll(".this_month_plans").forEach((element) => {
+        if (document.querySelectorAll(".this_month_plans")) {
+          element.innerHTML = "";
+        }
+      });
+      firstPlanDay.innerHTML += `<div class = "this_month_plans"><div class = "text_color">${element.visible[0].description}</div></div>`;
+      firstPlanDay.querySelector(".this_month_plans").style.width = `${
+        daysValue * 101
+      }%`;
+    }
+  });
+}
+
+function checkRepeatDate(begin, ends) {
+  weeksTimeStamp.forEach((element, index) => {
+    if (element.visible[0].start === begin && element.visible[0].end === ends) {
+      weeksTimeStamp.splice(index, 1);
+    }
   });
 }
